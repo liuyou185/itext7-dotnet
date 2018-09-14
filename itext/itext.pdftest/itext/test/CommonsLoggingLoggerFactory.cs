@@ -41,32 +41,32 @@ source product.
 For more information, please contact iText Software Corp. at this
 address: sales@itextpdf.com
 */
+
 using System;
 using System.Collections.Concurrent;
 using iText.IO.Log;
 
-namespace iText.Test
-{
-    public class Log4NetLoggerFactory : ILoggerFactory
-    {
-        private ConcurrentDictionary<Object, Log4NetLogger> cache = new  ConcurrentDictionary<Object, Log4NetLogger>(); 
+namespace iText.Test {
+    public class CommonsLoggingLoggerFactory : ILoggerFactory {
+        private ConcurrentDictionary<Object, CommonsLoggingLogger> cache = new ConcurrentDictionary<Object, CommonsLoggingLogger>();
 
         public ILogger GetLogger(Type klass) {
-            Log4NetLogger result;
+            CommonsLoggingLogger result;
             if (!cache.TryGetValue(klass, out result)) {
-                result = new Log4NetLogger(klass);
+                result = new CommonsLoggingLogger(klass);
                 cache.TryAdd(klass, result);
             }
+
             return result;
         }
 
         public ILogger GetLogger(string name) {
-            Log4NetLogger result;
-            if (!cache.TryGetValue(name, out result))
-            {
-                result = new Log4NetLogger(name);
+            CommonsLoggingLogger result;
+            if (!cache.TryGetValue(name, out result)) {
+                result = new CommonsLoggingLogger(name);
                 cache.TryAdd(name, result);
             }
+
             return result;
         }
     }

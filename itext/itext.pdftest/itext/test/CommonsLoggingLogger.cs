@@ -42,16 +42,68 @@ For more information, please contact iText Software Corp. at this
 address: sales@itextpdf.com
 */
 using System;
-using log4net.Appender;
-using log4net.Core;
+using Common.Logging;
+using ILogger = iText.IO.Log.ILogger;
 
 namespace iText.Test {
-    public class ITextMemoryAppender : MemoryAppender {
-        protected override void Append(LoggingEvent le) {
-            Console.WriteLine(le.LoggerName + ": " + le.RenderedMessage);
-            if (le.Level >= Level.Warn) {
-                base.Append(le);
-            }
+    public class CommonsLoggingLogger : ILogger {
+
+        private ILog iLog;
+
+        public CommonsLoggingLogger(String name) {
+            iLog = LogManager.GetLogger(name);
+        }
+
+        public CommonsLoggingLogger(Type type) {
+            iLog = LogManager.GetLogger(type);
+        }
+
+        public void Warn(string message) {
+            iLog.Warn(message);
+        }
+
+        public bool IsWarnEnabled() {
+            return iLog.IsWarnEnabled;
+        }
+
+        public void Trace(string message) {
+            iLog.Trace(message);
+        }
+
+        public bool IsTraceEnabled() {
+            return iLog.IsTraceEnabled;
+        }
+
+        public void Debug(string message) {
+            iLog.Debug(message);
+        }
+
+        public bool IsDebugEnabled() {
+            return iLog.IsDebugEnabled;
+        }
+
+        public void Info(string message) {
+            iLog.Info(message);
+        }
+
+        public bool IsInfoEnabled() {
+            return iLog.IsInfoEnabled;
+        }
+
+        public void Error(string message) {
+            iLog.Error(message);
+        }
+
+        public void Error(string message, Exception e) {
+            iLog.Error(message, e);
+        }
+
+        public bool IsErrorEnabled() {
+            return iLog.IsErrorEnabled;
+        }
+
+        public ILog GetILog() {
+            return iLog;
         }
     }
 }
